@@ -3,7 +3,6 @@ package resolvers
 import (
 	"fmt"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"os"
 )
 
@@ -63,7 +62,7 @@ func LoadResolvers() *Resolvers {
 
 	filename := "resolvers.yaml"
 
-	b, err := ioutil.ReadFile(filename)
+	b, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err)
 	}

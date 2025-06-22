@@ -2,7 +2,7 @@ package dnsrecon
 
 import (
 	"context"
-	"github.com/golang/groupcache/lru"
+	lru "github.com/hashicorp/golang-lru/v2"
 	"github.com/miekg/dns"
 	"dnsrecon/resolvers"
 	"golang.org/x/time/rate"
@@ -22,7 +22,7 @@ type TargetLookup struct {
 }
 
 type LruCache struct {
-	Lru *lru.Cache
+	Lru *lru.Cache[string, interface{}]
 	Mu  sync.RWMutex
 }
 
@@ -64,8 +64,9 @@ func NewDnsClient() *DnsClient {
 	return &dnsClient
 }
 
-func NewCache() *lru.Cache {
-	return lru.New(10000)
+func NewCache() *lru.Cache[string, interface{}] {
+	cache, _ := lru.New[string, interface{}](10000)
+	return cache
 }
 
 func (client *DnsClient) Start() {

@@ -3,7 +3,6 @@ package config
 import (
 	"fmt"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"os"
 )
 
@@ -19,7 +18,7 @@ func CreateConfig() bool {
 
 	c := Config{}
 
-	c.MaximumDnsServers = 0
+	c.MaximumDnsServers = 5
 
 	// Create config file if it doesn't exist
 	if _, err := os.Stat(configFile); os.IsNotExist(err) {
@@ -52,7 +51,7 @@ func LoadConfig() *Config {
 
 	var c Config
 
-	b, err := ioutil.ReadFile(configFile)
+	b, err := os.ReadFile(configFile)
 	if err != nil {
 		panic(err)
 	}

@@ -19,10 +19,7 @@ func main() {
 
 	resolvers.CreateResolversFile()
 
-	created := config.CreateConfig()
-	if created {
-		return
-	}
+	config.CreateConfig()
 	s.Config = config.LoadConfig()
 
 	resolvers := resolvers.LoadResolvers()
@@ -58,7 +55,7 @@ func main() {
 		for range time.Tick(time.Hour * 24) {
 
 			cache.Mu.Lock()
-			cache.Lru.Clear()
+			cache.Lru.Purge()
 			cache.Mu.Unlock()
 		}
 	}()
